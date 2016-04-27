@@ -35,11 +35,14 @@ class HashTable
 		void printList();
 		void insertOrderYear(string name, int year);
 		void printListYear();
+		void colCount(int h);
 
 
 	private:
 		int hashSum(string x, int s, int h);
 		int tableSize = 10;
+		int collisionCount = 0;
+		int itemCount = 0;
 		hashElem* hTable[10];
 		hashElem* headName = NULL;
 		hashElem* headYear = NULL;

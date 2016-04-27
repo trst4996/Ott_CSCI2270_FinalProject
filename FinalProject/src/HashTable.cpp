@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <string.h>
+#include <tgmath.h>
 
 using namespace std;
 
@@ -34,6 +35,7 @@ void HashTable :: hashInit()
 int HashTable :: hashSum(string x, int s, int h)
 {
     int sum = 0;
+    float fSum = 0;
     for (int i = 0; i < x.size(); i ++)
     {
         sum = sum + x[i];
@@ -49,7 +51,7 @@ int HashTable :: hashSum(string x, int s, int h)
         sum = (sum * (sum + 3)) % s;
     case 3:
         // The clear best one
-        sum = sum ^(x.size()) % s;
+        sum = (sum ^(x.size())) % s;
         break;
     }
 
@@ -60,16 +62,21 @@ int HashTable :: hashSum(string x, int s, int h)
 void HashTable :: insertMovie(string name, int year, int h)
 {
     // remarkably un-fucked
+
     int index = hashSum(name, tableSize, h);
     hashElem *temp = hTable[index];
     hashElem *hInsert = new hashElem(name, year);
-    //cout << "no seg fault" << endl;
+    if (temp -> next != NULL)
+    {
+        collisionCount ++;
+    }
     while (temp -> next != NULL)
     {
         temp = temp -> next;
     }
     temp -> next = hInsert;
     hInsert -> prev = temp;
+    itemCount ++;
 }
 
 void HashTable  :: printTableContents()
@@ -79,7 +86,7 @@ void HashTable  :: printTableContents()
     hashElem *temp = NULL;
     for (int k = 0; k < tableSize; k ++ )
     {
-        temp = hTable[k];printTableContents();
+        temp = hTable[k];
         if(temp -> next != NULL)
         {
             notEmpty = 1;
@@ -119,26 +126,21 @@ void HashTable  :: deleteMovie(string name, int h)
 hashElem *HashTable :: findMovie(string name, int h)
 {
 
-    // PSSSSST   hey you looking at my code. This function is broken! I bet
-    // it would  be really helpful to suggest that I use the has function to find the index
-    // rather than look through the entire array!
-    hashElem *found;
+    hashElem *found = NULL;
     int index = hashSum(name, tableSize, h);
-    bool foundB = 0;
-    for (int i = 0; i < tableSize; i ++)
+    hashElem *temp = hTable[index];
+    while (temp -> next != NULL)
     {
-        hashElem *temp = hTable[i];
-        while (temp -> next != NULL & !foundB)
+        if (temp -> title == name)
         {
-            if (temp -> title == name)
-            {
-                found = temp;
-                foundB = 1;
-            }
+            found = temp;
+        }else{
             temp = temp -> next;
         }
+
     }
-    if (foundB)
+
+    if (found != NULL)
     {
         return found;
     }else{
@@ -148,10 +150,9 @@ hashElem *HashTable :: findMovie(string name, int h)
 
 void HashTable :: insertOrderName(string name, int year)
 {
-    // Hey!
-
+    // Hey // Adds the elements to a linked list in order so that the elements can be printed in order. Might try this with an array of structs since it doesn't work terribly well
+    // Pulled it off of stack overflow, might scrap the whole idea though since it works about as well as a ten cent whore.
     hashElem *node = new hashElem(name, year);
-
     hashElem *temp = headName;
     hashElem **temp1 = &headName; // this stores the location of where node should go as the while loop traverses the list.
 
@@ -167,7 +168,7 @@ void HashTable :: insertOrderName(string name, int year)
 }
 void HashTable :: insertOrderYear(string name, int year)
 {
-    // Hey!
+
 
     hashElem *node = new hashElem(name, year);
 
@@ -213,4 +214,24 @@ void HashTable :: printListYear()
     }else{
         cout << "empty" << endl;
     }
+}
+void HashTable :: colCount(int h)
+{
+    // Displays all of the
+    switch (h)
+    {
+    case 1:
+        cout << "Using Division Method:" << endl;
+        break;
+    case 2:
+        cout << "Using the Knuth Variant on Division:" << endl;
+        break;
+    case 3:
+        cout << "Using the clearly superior hash function by yours truly:" << endl;
+        break;
+
+    }
+    cout << "Current number of collisions: " << collisionCount << endl;
+    cout << "Current number of items: " << itemCount << endl;
+    cout << "Hash Table size: " << tableSize << endl;
 }

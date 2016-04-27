@@ -16,12 +16,13 @@ int menuSelect() // function that gets the user's selection for later
     cout << "4. Print table contents" << endl;
     cout << "5. Print table contents in order by title" << endl;
     cout << "6. Print table contents in order by year" << endl;
-    cout << "7. Quit" << endl;
+    cout << "7. View current number of collisions for this hash function." << endl;
+    cout << "8. Quit" << endl;
 
 
     getline(cin, selection);
     int selectionInt = atoi(selection.c_str());
-    while ((selectionInt < 1) || (selectionInt > 7))
+    while ((selectionInt < 1) || (selectionInt > 8))
     {
         cout << "Please choose a number from the menu" << endl;
         getline(cin, selection);
@@ -63,20 +64,23 @@ void infoDisplay()
     cout << "\nMy own special method that I made up just for this project: This method " << endl;
     cout << "is not proven to be efficient or not efficient. This method uses k, the sum " << endl;
     cout << "of the ASCII values in the string, p, the size of the string, and s, the " << endl;
-    cout << "size of the hash table. It then performs the operation floor(k^p) % s in " << endl;
+    cout << "size of the hash table. It then performs the operation (k^p) % s in " << endl;
     cout << "order to get the index. I believe this to be an efficient function because " << endl;
     cout << "it is based on more than one aspect of the data, which allows more " << endl;
     cout << "possibilities for indices than from just using one aspect of the data.\n" << endl;
 }
-void mainFuntions(int hashFunc)
+int mainFuntions(int hashFunc)
 {
     HashTable h;
     h.hashInit();
+    h.insertOrderName("", -1);
+    //h.insertOrderYear("", -1);
+
     string inName, inYear, dName, fName;
     int yearInt;
     int select = menuSelect();
     hashElem *foundNode = NULL;
-    while (select != 5)
+    while (select != 8)
     {
         switch(select)
         {
@@ -118,32 +122,44 @@ void mainFuntions(int hashFunc)
         case 6:
             h.printListYear();
             break;
+        case 7:
+            h.colCount(hashFunc);
+            break;
         }
         select = menuSelect();
     }
     cout << "Goodbye!" << endl;
+    return 1;
 }
 
 int main()
 {
 
-    int hashSelect;
+    int hashSelect, mainSelect;
     hashSelect = chooseHash();
-    switch (hashSelect)
+    while (!hashSelect != 4)
     {
-        case 1:
-            mainFuntions(1);
-            break;
-        case 2:
-            mainFuntions(2);
-            break;
-        case 3:
-            mainFuntions(3);
-            break;
-        case 4:
+        switch (hashSelect)
+        {
+            case 1:
+                mainSelect = mainFuntions(1);
+                break;
+            case 2:
+                mainSelect = mainFuntions(2);
+                break;
+            case 3:
+                mainSelect = mainFuntions(3);
+                break;
+        }
+        if (hashSelect == 4)
+        {
             infoDisplay();
-            break;
+            hashSelect = chooseHash();
+        }else if(mainSelect == 1)
+        {
+            return 0;
+        }
+
     }
-        //hashSelect = chooseHash();
     return 0;
 }

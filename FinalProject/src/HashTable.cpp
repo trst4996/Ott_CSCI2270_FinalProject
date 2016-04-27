@@ -150,28 +150,83 @@ hashElem *HashTable :: findMovie(string name, int h)
 
 void HashTable :: insertOrderName(string name, int year)
 {
-    // Hey // Adds the elements to a linked list in order so that the elements can be printed in order. Might try this with an array of structs since it doesn't work terribly well
+    // Adds the elements to a linked list in order so that the elements can be printed in order. Might try this with an array of structs since it doesn't work terribly well
     // Pulled it off of stack overflow, might scrap the whole idea though since it works about as well as a ten cent whore.
     hashElem *node = new hashElem(name, year);
-    hashElem *temp = headName;
-    hashElem **temp1 = &headName; // this stores the location of where node should go as the while loop traverses the list.
-
-    while (temp != NULL && name.compare(temp -> title) > 0)
+    bool orderFlag = 0;
+    if (headName == NULL)
     {
-        temp1 = &temp -> next; // storing the new location
-        temp = temp -> next;
+        headName = node;
+    }else{
+
+        if (name.compare(headName-> title) < 0)
+        {
+           // name comes before head
+           node -> next = headName;
+           headName = node;
+        }else{
+            // name comes after temp
+            hashElem *temp = headName;
+            while (temp -> next != NULL && !orderFlag)
+            {
+                // while name keeps going after temp, and temp -> next != NULL
+                if (name.compare(temp -> next -> title) < 0)
+                {
+                    //meaning we hit a point where name should go after temp and before temp -> next, flag = true and the while loop will exit
+                    orderFlag = true;
+                }else{
+
+                    temp = temp -> next;
+                }
+            }
+            node -> next = temp -> next;
+            temp -> next = node;
+        }
+
     }
-    *temp1 = node;
-    node -> next = temp;
-
-
 }
+
+
 void HashTable :: insertOrderYear(string name, int year)
 {
-
-
+// Adds the elements to a linked list in order so that the elements can be printed in order. Might try this with an array of structs since it doesn't work terribly well
+    // Pulled it off of stack overflow, might scrap the whole idea though since it works about as well as a ten cent whore.
     hashElem *node = new hashElem(name, year);
+    bool orderFlag = 0;
+    if (headYear == NULL)
+    {
+        headYear = node;
+    }else{
 
+        if (year < headYear -> year)
+        {
+           // node goes before head
+           node -> next = headYear;
+           headYear = node;
+        }else{
+            // year > temp -> year
+            hashElem *temp = headYear;
+            while (temp -> next != NULL && !orderFlag)
+            {
+                // while node keeps going after temp, and temp -> next != NULL
+                if (year < temp -> next -> year)
+                {
+                    //meaning we hit a point where name should go after temp and before temp -> next, flag = true and the while loop will exit
+                    orderFlag = true;
+                }else{
+
+                    temp = temp -> next;
+                }
+            }
+            node -> next = temp -> next;
+            temp -> next = node;
+        }
+
+    }
+
+
+    /*
+    hashElem *node = new hashElem(name, year);
     hashElem *temp = headYear;
     hashElem **temp1 = &headYear; // this stores the location of where node should go as the while loop traverses the list.
 
@@ -182,6 +237,7 @@ void HashTable :: insertOrderYear(string name, int year)
     }
     *temp1 = node;
     node -> next = temp;
+    */
 
 
 }
@@ -191,7 +247,8 @@ void HashTable :: printList()
     if (headName != NULL)
     {
         hashElem *temp = headName;
-        while (temp -> next != NULL)
+        //cout << temp -> title << ":" << temp -> year << endl;
+        while (temp != NULL)
         {
             cout << temp -> title << ":" << temp -> year << endl;
             temp = temp -> next;
@@ -206,7 +263,7 @@ void HashTable :: printListYear()
     if (headYear != NULL)
     {
         hashElem *temp = headYear;
-        while (temp -> next != NULL)
+        while (temp != NULL)
         {
             cout << temp -> year << ":" << temp -> title << endl;
             temp = temp -> next;

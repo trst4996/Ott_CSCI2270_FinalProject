@@ -1,17 +1,18 @@
 # depslib dependency file v1.0
-1461731076 source:/home/user/FinalProject/src/HashTable.cpp
+1461792016 source:/home/user/FinalProject/src/HashTable.cpp
 	"HashTable.h"
 	<iostream>
 	<stdlib.h>
 	<fstream>
 	<sstream>
 	<string.h>
+	<tgmath.h>
 
-1461731076 /home/user/FinalProject/include/HashTable.h
+1461772302 /home/user/FinalProject/include/HashTable.h
 	<string>
 	<vector>
 
-1461729558 source:/home/user/FinalProject/main.cpp
+1461795264 source:/home/user/FinalProject/main.cpp
 	<iostream>
 	<stdlib.h>
 	<fstream>

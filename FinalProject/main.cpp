@@ -73,8 +73,10 @@ int mainFuntions(int hashFunc)
 {
     HashTable h;
     h.hashInit();
-    h.insertOrderName("", -1);
+    //h.insertOrderName("", -1);
     //h.insertOrderYear("", -1);
+
+
 
     string inName, inYear, dName, fName;
     int yearInt;

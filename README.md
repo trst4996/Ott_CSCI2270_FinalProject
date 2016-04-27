@@ -2,6 +2,8 @@
 
 This project will go off of assignment 12. It will have all of assignment 12's functionalities. The special thing it will do is give the user an option to use different hash functions and track the number of collisions occuring as items are added. 
 
+contact me at connor.ott@colorado.edu if you want to talk business.
+
 # Problems
 
 -Right now I want to read everything into a linked list in order so that we can print it in order, I haven't listed that as a functionality of the program because I can't get it to work. I'm working on it though, should be able to giet that working soon.

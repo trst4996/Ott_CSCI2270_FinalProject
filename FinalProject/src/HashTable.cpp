@@ -16,6 +16,13 @@ HashTable::~HashTable()
 {
     //dtor
 }
+
+/*
+The biggest difference you'll see in this program from assignment 12 is that most functions now take the parameter
+ "h." This changes which hash function is being used to do things. That's about it. There are a few extra function in here
+ that don't do a whole lot but are there anyway
+
+*/
 void HashTable :: hashInit()
 {
     for (int i = 0; i < tableSize; i ++)
@@ -52,6 +59,7 @@ int HashTable :: hashSum(string x, int s, int h)
 }
 void HashTable :: insertMovie(string name, int year, int h)
 {
+    // remarkably un-fucked
     int index = hashSum(name, tableSize, h);
     hashElem *temp = hTable[index];
     hashElem *hInsert = new hashElem(name, year);
@@ -66,6 +74,7 @@ void HashTable :: insertMovie(string name, int year, int h)
 
 void HashTable  :: printTableContents()
 {
+    // not fucked function that prints everything just fine
     bool notEmpty = 0;
     hashElem *temp = NULL;
     for (int k = 0; k < tableSize; k ++ )
@@ -95,6 +104,7 @@ void HashTable  :: printTableContents()
 }
 void HashTable  :: deleteMovie(string name, int h)
 {
+    // broken due to the fact that the find function is fucked
     hashElem *found = findMovie(name, h);
     if (found != NULL)
     {
@@ -108,6 +118,10 @@ void HashTable  :: deleteMovie(string name, int h)
 }
 hashElem *HashTable :: findMovie(string name, int h)
 {
+
+    // PSSSSST   hey you looking at my code. This function is broken! I bet
+    // it would  be really helpful to suggest that I use the has function to find the index
+    // rather than look through the entire array!
     hashElem *found;
     int index = hashSum(name, tableSize, h);
     bool foundB = 0;
@@ -134,59 +148,48 @@ hashElem *HashTable :: findMovie(string name, int h)
 
 void HashTable :: insertOrderName(string name, int year)
 {
+    // Hey!
 
     hashElem *node = new hashElem(name, year);
-    if (headName == NULL)
+
+    hashElem *temp = headName;
+    hashElem **temp1 = &headName; // this stores the location of where node should go as the while loop traverses the list.
+
+    while (temp != NULL && name.compare(temp -> title) > 0)
     {
-        headName = node;
-        cout << "new head: " << headName -> title << endl;
-        tailName = node;
-    }else{
-        bool flag = 0;
-        hashElem *temp = headName;
-        while (temp -> next != NULL & !flag)
-        {
-            if (name.compare(temp-> title) >= 0)
-            {
-                flag = true;
-            }else{
-                temp = temp -> next;
-            }
-
-        }
-
-        if (temp == headName)
-        {
-            temp -> prev = node;
-            node -> next = temp;
-            headName = node;
-            cout << "adding to head" << endl;
-        }else if(temp == tailName)
-        {
-            temp -> prev = node;
-            node -> next = temp;
-            tailName = node;
-            cout << "adding to tail" << endl;
-        }else{
-            node -> next = temp;
-            node -> prev = temp -> prev;
-            temp -> prev -> next = node;
-            temp -> prev = node;
-            cout << "adding to the middle" << endl;
-        }
-
-
+        temp1 = &temp -> next; // storing the new location
+        temp = temp -> next;
     }
+    *temp1 = node;
+    node -> next = temp;
+
+
 }
+void HashTable :: insertOrderYear(string name, int year)
+{
+    // Hey!
+
+    hashElem *node = new hashElem(name, year);
+
+    hashElem *temp = headYear;
+    hashElem **temp1 = &headYear; // this stores the location of where node should go as the while loop traverses the list.
+
+    while (temp != NULL && temp -> year < node -> year)
+    {
+        temp1 = &temp -> next; // storing the new location
+        temp = temp -> next;
+    }
+    *temp1 = node;
+    node -> next = temp;
+
+
+}
+
 void HashTable :: printList()
 {
     if (headName != NULL)
     {
         hashElem *temp = headName;
-        if (temp -> next == NULL)
-        {
-            cout << "list not built" << endl;
-        }
         while (temp -> next != NULL)
         {
             cout << temp -> title << ":" << temp -> year << endl;
@@ -197,3 +200,17 @@ void HashTable :: printList()
     }
 }
 
+void HashTable :: printListYear()
+{
+    if (headYear != NULL)
+    {
+        hashElem *temp = headYear;
+        while (temp -> next != NULL)
+        {
+            cout << temp -> year << ":" << temp -> title << endl;
+            temp = temp -> next;
+        }
+    }else{
+        cout << "empty" << endl;
+    }
+}

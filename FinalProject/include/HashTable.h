@@ -33,6 +33,8 @@ class HashTable
 		void hashInit();
 		void insertOrderName(string name, int year);
 		void printList();
+		void insertOrderYear(string name, int year);
+		void printListYear();
 
 
 	private:
@@ -40,7 +42,7 @@ class HashTable
 		int tableSize = 10;
 		hashElem* hTable[10];
 		hashElem* headName = NULL;
-		hashElem* tailName = NULL;
+		hashElem* headYear = NULL;
 
 };
 

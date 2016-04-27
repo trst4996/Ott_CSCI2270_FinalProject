@@ -14,12 +14,14 @@ int menuSelect() // function that gets the user's selection for later
     cout << "2. Delete movie" << endl;
     cout << "3. Find movie" << endl;
     cout << "4. Print table contents" << endl;
-    cout << "5. Quit" << endl;
+    cout << "5. Print table contents in order by title" << endl;
+    cout << "6. Print table contents in order by year" << endl;
+    cout << "7. Quit" << endl;
 
 
     getline(cin, selection);
     int selectionInt = atoi(selection.c_str());
-    while ((selectionInt < 1) || (selectionInt > 5))
+    while ((selectionInt < 1) || (selectionInt > 7))
     {
         cout << "Please choose a number from the menu" << endl;
         getline(cin, selection);
@@ -49,7 +51,7 @@ int chooseHash()
 }
 void infoDisplay()
 {
-    //  function made purely to
+    //  function made just to describe the different hash functions
     cout << "Division Method: This is the most basic method of hashing data." << endl;
     cout << "The index is found by summing all of the ASCII values of the characters in" << endl;
     cout << "the title and modding that value with the size of the hash table. " << endl;
@@ -67,7 +69,7 @@ void infoDisplay()
     cout << "possibilities for indices than from just using one aspect of the data.\n" << endl;
 }
 void mainFuntions(int hashFunc)
-{printTableContents();
+{
     HashTable h;
     h.hashInit();
     string inName, inYear, dName, fName;
@@ -87,6 +89,8 @@ void mainFuntions(int hashFunc)
             yearInt = atoi(inYear.c_str());
 
             h.insertMovie(inName, yearInt, hashFunc);
+            h.insertOrderYear(inName, yearInt);
+            h.insertOrderName(inName, yearInt);
             break;
 
         case 2:
@@ -106,8 +110,13 @@ void mainFuntions(int hashFunc)
             }
             break;
         case 4:
-            //h.printList();
             h.printTableContents();
+            break;
+        case 5:
+            h.printList();
+            break;
+        case 6:
+            h.printListYear();
             break;
         }
         select = menuSelect();

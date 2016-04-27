@@ -68,7 +68,7 @@ void HashTable :: insertMovie(string name, int year, int h)
     hashElem *hInsert = new hashElem(name, year);
     if (temp -> next != NULL)
     {
-        collisionCount ++;
+        collisionCount ++; // keeps track of the number of collisions occurring
     }
     while (temp -> next != NULL)
     {
@@ -111,7 +111,7 @@ void HashTable  :: printTableContents()
 }
 void HashTable  :: deleteMovie(string name, int h)
 {
-    // broken due to the fact that the find function is fucked
+
     hashElem *found = findMovie(name, h);
     if (found != NULL)
     {
@@ -128,16 +128,17 @@ hashElem *HashTable :: findMovie(string name, int h)
 
     hashElem *found = NULL;
     int index = hashSum(name, tableSize, h);
+    bool foundB = 0;
     hashElem *temp = hTable[index];
-    while (temp -> next != NULL)
+    while (temp != NULL && !foundB)
     {
         if (temp -> title == name)
         {
             found = temp;
+            foundB = 1;
         }else{
             temp = temp -> next;
         }
-
     }
 
     if (found != NULL)
@@ -150,8 +151,8 @@ hashElem *HashTable :: findMovie(string name, int h)
 
 void HashTable :: insertOrderName(string name, int year)
 {
-    // Adds the elements to a linked list in order so that the elements can be printed in order. Might try this with an array of structs since it doesn't work terribly well
-    // Pulled it off of stack overflow, might scrap the whole idea though since it works about as well as a ten cent whore.
+    // Adds the elements to a linked list in order so that the elements can be printed in order.
+
     hashElem *node = new hashElem(name, year);
     bool orderFlag = 0;
     if (headName == NULL)
@@ -189,8 +190,7 @@ void HashTable :: insertOrderName(string name, int year)
 
 void HashTable :: insertOrderYear(string name, int year)
 {
-// Adds the elements to a linked list in order so that the elements can be printed in order. Might try this with an array of structs since it doesn't work terribly well
-    // Pulled it off of stack overflow, might scrap the whole idea though since it works about as well as a ten cent whore.
+    // Adds the elements to a linked list in order so that the elements can be printed in order.
     hashElem *node = new hashElem(name, year);
     bool orderFlag = 0;
     if (headYear == NULL)
@@ -223,27 +223,11 @@ void HashTable :: insertOrderYear(string name, int year)
         }
 
     }
-
-
-    /*
-    hashElem *node = new hashElem(name, year);
-    hashElem *temp = headYear;
-    hashElem **temp1 = &headYear; // this stores the location of where node should go as the while loop traverses the list.
-
-    while (temp != NULL && temp -> year < node -> year)
-    {
-        temp1 = &temp -> next; // storing the new location
-        temp = temp -> next;
-    }
-    *temp1 = node;
-    node -> next = temp;
-    */
-
-
 }
 
 void HashTable :: printList()
 {
+    //Prints the items in alphabetical order.
     if (headName != NULL)
     {
         hashElem *temp = headName;
@@ -260,6 +244,7 @@ void HashTable :: printList()
 
 void HashTable :: printListYear()
 {
+    //Prints items in numerical order by year
     if (headYear != NULL)
     {
         hashElem *temp = headYear;

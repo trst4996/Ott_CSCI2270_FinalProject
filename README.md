@@ -5,7 +5,7 @@ This project will go off of assignment 12. It will have all of assignment 12's f
 contact me at connor.ott@colorado.edu if you want to talk business.
 
 ## Running the Code
-This was made in Code::Blocks, for Code:Blocks. Open finalProject.cbp in Code::Blocks and you should have everything you need right there.
+This was made in Code::Blocks, for Code:Blocks. Open FinalProject.cbp in Code::Blocks and you should have everything you need right there.
 
 ## Problems
 
